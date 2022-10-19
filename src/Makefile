@@ -6,10 +6,13 @@
 
 CC=clang
 
-all: mytool
+all: mtool
 
-mytool:	mconfig.o main.o
-	$(CC) mconfig.o main.o -lmenu -lncurses -o $@
+mtool:	mlog.o mconfig.o main.o
+	$(CC) mlog.o mconfig.o main.o -lmenu -lncurses -o $@
+
+mlog.o:	mlog.c
+	$(CC) -c -I/usr/include $< -o $@
 
 mconfig.o: mconfig.c
 	$(CC) -c -I/usr/include $< -o $@
@@ -19,4 +22,4 @@ main.o:		main.c
 
 clean:
 	rm *.o
-	rm mytool
+	rm mtool

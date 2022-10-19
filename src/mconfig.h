@@ -1,5 +1,5 @@
-#ifndef _MYCONFIG_H_
-#define _MYCONFIG_H_
+#ifndef _MCONFIG_H_
+#define _MCONFIG_H_
 
 typedef struct mconfig_st {
 
@@ -9,6 +9,6 @@ typedef struct mconfig_st {
 
 mconfig * mconfig_new(const char *);
 
-void * mconfig_delete(mconfig **);
+void mconfig_delete(mconfig **);
 
 #endif // _MYCONFIG_H_
