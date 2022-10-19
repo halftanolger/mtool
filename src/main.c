@@ -4,33 +4,21 @@
 //                                                                           //
 //---------------------------------------------------------------------------//
 
-#include <signal.h>
-#include <iostream>
-#include <ncurses.h>
+#include <stdio.h>
 
-#include "mtool.h"
+#include "myconfig.h"
 
-using namespace std;
-
-void resize(int);
+myconfig * _myconfig;
 
 int main(int argc, char* argv[])
 {
-	cout << "Boot mytool .." << endl;
+	if (argc != 2) {
+		fprintf (stderr, "usage: %s -config <filename>\n");
+		return 1;
+	}
 
-	void (*resizeHandler)(int);
-	resizeHandler = resize;
-	signal(SIGWINCH, resizeHandler);
+	//_myconfig = myconfig_new(
 
-	mtool m;
-	m.init(argc,argv);
-	int r = m.run();
-
-	return r;
+	return 0;	
 }
 
-void resize(int sig)
-
-	// make a singleton of mtool, get it, and redraw ...{
-	cout << "rsize?" << endl;
-}

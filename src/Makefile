@@ -4,23 +4,19 @@
 #                                                                             #
 #-----------------------------------------------------------------------------#
 
-CXX=c++
-RM=rm -f
-CPPFLAGS=-g
-LDFLAGS=-g
-LDLIBS=-lncurses -lc++
+CC=clang
 
 all: mytool
 
-mytool: main.o mtool.o 
-	$(CXX) $(LDFLAGS) -o mytool main.o mtool.o $(LDLIBS)
+mytool:	mconfig.o main.o
+	$(CC) mconfig.o main.o -lmenu -lncurses -o $@
 
-main.o:	 main.cpp
+mconfig.o: mconfig.c
+	$(CC) -c -I/usr/include $< -o $@
 
-mtool.o: mtool.cpp mtool.h 
+main.o:		main.c
+	$(CC) -c -I/usr/include $< -o $@
 
 clean:
-	$(RM) *.o
-
-distclean: clean
-	$(RM) mytool
+	rm *.o
+	rm mytool
