@@ -9,45 +9,49 @@
 #include "mlog.h"
 
 
-mlog * mlog_new (mconfig * _myconfig) {
+Mlog * mlog_new (Mconfig * mconfig) {
 
-	assert (_myconfig != NULL);
+	assert (mconfig != NULL);
 
-	mlog * _mlog = (mlog*)malloc(sizeof(mlog));
+	Mlog * mlog = (Mlog*)malloc(sizeof(Mlog));
 
-	if (_mlog == NULL) {
-		fprintf (stderr, "Error: can't malloc. %s\n", strerror (errno));		return NULL;
+	if (mlog == NULL) {
+		fprintf (stderr, "Error: can't malloc. %s\n", 
+				strerror (errno));		
+		return NULL;
 	}
-
-	//TODO: get these from the config-file ...
 	
-	_mlog->active = 1;
-	
-	strcpy (_mlog->signature, "nop");
+	mlog->active = strcmp(mconfig->log_console,"on") == 0?1:0;
+	mlog->level = strcmp(mconfig->log_level,"info") == 0?MLOG_INFO:MLOG_ERROR;
 
-	return _mlog;
+	strcpy (mlog->signature, "nop");
+
+	return mlog;
 
 }
 
-void mlog_delete (mlog **_mlog) {
+void mlog_delete (Mlog ** mlog) {
 
-	if (*_mlog == NULL)
+	if ((*mlog) == NULL)
 		return;
 
-	free (*_mlog);
+	free (*mlog);
 
 }
 
-void mlog_log (mlog * _mlog, mlog_type type, 
+void mlog_log (Mlog * mlog, mlog_type type, 
 		const char* signatur , const char* message) {
 
-	assert (_mlog != NULL);
+	assert (mlog != NULL);
 	assert (signatur != NULL);
 	assert (message != NULL);
 	assert (strlen(signatur) < 80);
 
-	if (_mlog->active == 0) 
+	if (mlog->active == 0) 
 		return;
+
+	if (type == MLOG_INFO && mlog->level == MLOG_ERROR)
+	       return;	
 
 	time_t rawtime;
 	struct tm * timeinfo;
@@ -59,7 +63,7 @@ void mlog_log (mlog * _mlog, mlog_type type,
 	time (&rawtime);
 	timeinfo = localtime (&rawtime);
 
-	if (type == INFO) {
+	if (type == MLOG_INFO) {
 		type_text = type_text_inf;
 	} else {
 		type_text = type_text_err;

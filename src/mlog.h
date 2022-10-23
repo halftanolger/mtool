@@ -3,7 +3,7 @@
 
 #include "mconfig.h"
 
-enum mlog_types_enum {INFO, ERROR};
+enum mlog_types_enum {MLOG_INFO, MLOG_ERROR};
 
 typedef enum mlog_types_enum mlog_type;
 
@@ -11,14 +11,16 @@ typedef struct mlog_st {
 
 	int active;
 
+	mlog_type level;
+
 	char signature[256];
 
-} mlog;
+} Mlog;
 
-mlog * mlog_new (mconfig *);
+Mlog * mlog_new (Mconfig *);
 
-void mlog_delete (mlog **);
+void mlog_delete (Mlog **);
 
-void mlog_log (mlog *, mlog_type, const char*, const char*);
+void mlog_log (Mlog *, mlog_type, const char*, const char*);
 
 #endif // _MLOG_H_

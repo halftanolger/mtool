@@ -1,4 +1,52 @@
-#
-# config.txt
-#
+#------------------------------------------------------------------------------#
+#                                                                              #
+#   mtool                                                                      #
+#                                                                              #
+#   Configuration file                                                         #
+#                                                                              #
+#------------------------------------------------------------------------------#
 
+
+#------------------------------------------------------------------------------#
+# The application have a name and a version.                                   #
+#                                                                              #
+# Examples                                                                     #
+# mtool_application_name = mytool                                              #
+# mtool_application_version_minor = 0                                          #
+# mtool_application_version_major = 0                                          #
+#------------------------------------------------------------------------------#
+
+mtool_application_name = mytool
+mtool_application_version_minor = 0
+mtool_application_version_major = 0
+
+
+#------------------------------------------------------------------------------#
+# Set the minimum number of columns and lines the terminal must have. For the  #
+# columns, this number must be greater than 59, and for the lines, this        #
+# number must be greater than 9.                                               #
+#                                                                              #
+# Examples                                                                     #
+# mtool_application_min_number_of_lines = 30                                   #
+# mtool_application_min_number_of_columns = 80                                 #
+#------------------------------------------------------------------------------#
+
+mtool_application_min_number_of_lines = 30
+mtool_application_min_number_of_columns = 80 
+
+
+#------------------------------------------------------------------------------#
+# Set the log level and log file. Log level can be 'info' or 'error'.          #
+# Log console can be 'on' or 'off'.                                            #
+#                                                                              #
+# Examples                                                                     #
+# mtool_log_console = on                                                       #
+# mtool_log_filename = ~/.mytool/log.txt                                       #
+# mtool_log_level = info                                                       #
+#------------------------------------------------------------------------------#
+
+mtool_log_console = on
+mtool_log_filename = ~/.mytool/log.txt
+mtool_log_level = info
+
+ 
