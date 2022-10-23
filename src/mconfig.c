@@ -39,7 +39,7 @@ Mconfig * mconfig_new (const char * filename) {
 		return NULL;
 	}
 
-	/* Make som regex to help parse the config file */
+	/* Make som regex to help us parse the config file */
 
 	regex_t regex_key_value;
 	int r = regcomp (&regex_key_value, 
@@ -95,8 +95,6 @@ Mconfig * mconfig_new (const char * filename) {
 		return NULL;
 	}
 
-
-
 	/* Read and parse the config-file */
 
 	FILE *fp = fopen (_mconfig->filename, "r");
@@ -123,9 +121,6 @@ Mconfig * mconfig_new (const char * filename) {
 		if (line_size == 0)
 			continue;
 
-		//printf("line[%03d]: chars=%03zd, buf size=%03zu,contents: %s", 
-		//		line_count, line_size,line_buf_size, line_buf);
-
 		strcpy(key,"nop");
 		strcpy(value,"nop");
 
@@ -138,7 +133,6 @@ Mconfig * mconfig_new (const char * filename) {
 
 		if (r == 0) {
 
-			//printf("key=%s value=%s\n",key,value);
 			int rs = store_config(_mconfig,(char*)&key,(char*)&value);
 
 			if ( rs > 0) {
@@ -161,10 +155,7 @@ Mconfig * mconfig_new (const char * filename) {
 
 			if (r == 0) {
 
-				/* Ok, this i a comment-line,
-				 * starting with # */
-
-				//printf("a comment line\n");
+				/* nop */
 
 			} else {
 
@@ -175,11 +166,8 @@ Mconfig * mconfig_new (const char * filename) {
 
 				if (r == 0) {
 
-					/* Ok, this is a blanck/empty 
-					 * line containing spaces */
-
-					//printf("empty line\n");
-
+					/* nop */
+					
 				} else {
 
 					r = check_line (d,
@@ -189,15 +177,10 @@ Mconfig * mconfig_new (const char * filename) {
 
 					if (r == 0) {
 
-						/* Ok, this is a line 
-						 * containing just a newline
-						 */
-						//printf ("new line\n");
+						/* nop */
 
 					} else {
 						
-						/* This is not an ok line. */
-
 						_mconfig->parse_error = 1;
 
 						int a = strlen(d)-1;
@@ -258,8 +241,6 @@ void mconfig_delete (Mconfig ** mconfig) {
 	return;
 }
 
-/* These are some private helper-functions */
-
 static int check_line(char *line, char *key, char *value, regex_t *regex) {
 
 	int nsub = (int)regex->re_nsub + 1;
@@ -286,8 +267,6 @@ static int check_line(char *line, char *key, char *value, regex_t *regex) {
 
 	return 0;
 }
-
-
 
 static int store_config(Mconfig *mconfig, char * key, char * value) {
 
