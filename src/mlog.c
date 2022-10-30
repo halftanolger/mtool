@@ -12,6 +12,7 @@
 Mlog * mlog_new (Mconfig * mconfig) {
 
 	assert (mconfig != NULL);
+	assert (mconfig->log_filename != NULL);
 
 	Mlog * mlog = (Mlog*)malloc(sizeof(Mlog));
 
@@ -26,6 +27,16 @@ Mlog * mlog_new (Mconfig * mconfig) {
 
 	strcpy (mlog->signature, "nop");
 
+	
+	mlog->filename = strdup(mconfig->log_filename);
+	mlog->fp = fopen (mlog->filename, "a");
+
+	if (mlog->fp == NULL) {
+		fprintf (stderr, "Error: can't fopen. %s\n",
+				strerror (errno));
+		return NULL;
+	}
+
 	return mlog;
 
 }
@@ -35,12 +46,16 @@ void mlog_delete (Mlog ** mlog) {
 	if ((*mlog) == NULL)
 		return;
 
+	fclose ((*mlog)->fp);
+
 	free (*mlog);
 
 }
 
+
 void mlog_log (Mlog * mlog, mlog_type type, 
-		const char* signatur , const char* message) {
+		const char* signatur , 
+		const char* codefile, int line, const char* message) {
 
 	assert (mlog != NULL);
 	assert (signatur != NULL);
@@ -69,13 +84,15 @@ void mlog_log (Mlog * mlog, mlog_type type,
 		type_text = type_text_err;
 	}
 
-	sprintf (text, "%d:%d:%d %s %s: ", timeinfo->tm_hour,
+	sprintf (text, "%d:%d:%d %s %s %s %d : ", timeinfo->tm_hour,
 			timeinfo->tm_min, timeinfo->tm_sec,
-			type_text, signatur);
+			type_text, signatur, codefile, line);
 
-	fprintf (stderr, "%s %s\n", text, message);
+	//fprintf (stderr, "%s %s\n", text, message);
+	fprintf (mlog->fp, "%s %s\n", text, message);
+	fflush (mlog->fp);
+
 
 	return;
 
 }
-

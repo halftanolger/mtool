@@ -8,8 +8,14 @@ CC=clang
 
 all: mtool
 
-mtool:	mutil.o mapp.o mlog.o mconfig.o main.o
-	$(CC) mutil.o mapp.o mlog.o mconfig.o main.o -lmenu -lncurses -o $@
+mtool:	mmenubar.o mmenu.o mutil.o mapp.o mlog.o mconfig.o main.o
+	$(CC) mmenubar.o mmenu.o mutil.o mapp.o mlog.o mconfig.o main.o -lmenu -lncurses -o $@
+
+mmenubar.o:	mmenubar.c
+	$(CC) -c -I/usr/include $< -o $@
+
+mmenu.o:	mmenu.c
+	$(CC) -c -I/usr/include $< -o $@
 
 mutil.o:	mutil.c
 	$(CC) -c -I/usr/include $< -o $@

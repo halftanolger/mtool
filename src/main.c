@@ -26,7 +26,12 @@ int main(int argc, char* argv[])
 
 	mapp_delete (&mapp);
 
-	return 0;	
+	if (rcode != 0) {
+		fprintf (stderr, "System Error, see logfile %s\n", 
+				mapp->mconfig->log_filename);
+	}
+
+	return rcode;	
 }
 
 int show_usage(const char* name) {

@@ -46,7 +46,7 @@ mtool_application_min_number_of_columns = 80
 #------------------------------------------------------------------------------#
 
 mtool_log_console = on
-mtool_log_filename = ~/.mytool/log.txt
+mtool_log_filename = /home/halftan/.mytool/log.txt
 mtool_log_level = info
 
  
